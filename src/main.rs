@@ -7,6 +7,7 @@ use crate::hal::{pac, prelude::*};
 use cortex_m_rt::entry;
 use defmt::println;
 use stm32f4xx_hal::{self as hal, rcc::Config};
+use defmt_rtt as _;
 
 #[entry]
 fn main() -> ! {
