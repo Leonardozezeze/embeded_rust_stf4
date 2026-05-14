@@ -1,13 +1,11 @@
 #![no_main]
 #![no_std]
 
-use embeded_rust_stf4 as _; // global logger + panic handler + memory layout
-
-use crate::hal::{pac, prelude::*};
 use cortex_m_rt::entry;
+use panic_probe as _;
+use defmt_rtt as _; 
 use defmt::println;
-use stm32f4xx_hal::{self as hal, rcc::Config};
-use defmt_rtt as _;
+use stm32f4xx_hal::{pac, prelude::*,rcc::Config};
 
 #[entry]
 fn main() -> ! {
@@ -17,9 +15,9 @@ fn main() -> ! {
     // 配置时钟：外部 HSE 8MHz，PLL 到 168MHz
     let mut rcc = dp.RCC.freeze(Config::hse(8.MHz()).sysclk(168.MHz()));
 
-    // LED: PD12（STM32F4-Discovery 板载 LED）
-    let gpiod = dp.GPIOD.split(&mut rcc);
-    let mut led = gpiod.pd12.into_push_pull_output();
+    // LED: PF9（STM32F4-Discovery 板载 LED）
+    let gpiof = dp.GPIOF.split(&mut rcc);
+    let mut led = gpiof.pf9.into_push_pull_output();
 
     // SysTick 延时
     let mut delay = cp.SYST.delay(&rcc.clocks);
